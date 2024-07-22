@@ -28,7 +28,6 @@ class _HomePageState extends State<HomePage> {
         print(data);
         setState(() {
           _currencyRates = {
-            'DolarAlış': data['USD']['AlÄ±Å'],
             'Dolar':
                 "Alış: ${data['USD']['AlÄ±Å']}\nSatış: ${data['USD']['SatÄ±Å']}",
             'Euro':
@@ -72,143 +71,42 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _isLoading
           ? const CircularProgressIndicator()
-          : Center(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          const Text(
-                            "DOLAR",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "SFPro",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              letterSpacing: 5,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              _currencyRates['Dolar'].toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontFamily: "SFPro",
-                                fontSize: 24,
-                              ),
-                            ),
-                          ),
-                        ],
+          : Padding(
+              padding: const EdgeInsets.only(right: 20, left: 20, bottom: 20, top: 0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: ListView.builder(
+                  itemCount: _currencyRates.length,
+                  itemBuilder: (context, index) {
+                    final key = _currencyRates.keys.elementAt(index);
+                    final value = _currencyRates[key];
+                    return ListTile(
+                      leading: Image.asset(
+                        'assets/images/$key.png',
+                        width: 50,
+                        height: 50,
                       ),
-                      Column(
-                        children: [
-                          const Text(
-                            "EURO",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "SFPro",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              letterSpacing: 5,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              _currencyRates['Euro'].toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontFamily: "SFPro",
-                                fontSize: 24,
-                              ),
-                            ),
-                          ),
-                        ],
+                      title: Text(
+                        key,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          const Text(
-                            "STERLİN",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "SFPro",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              letterSpacing: 5,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              _currencyRates['Sterlin'].toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontFamily: "SFPro",
-                                fontSize: 24,
-                              ),
-                            ),
-                          ),
-                        ],
+                      subtitle: Text(
+                        value.toString(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
-                      Column(
-                        children: [
-                          const Text(
-                            "GRAM ALTIN",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "SFPro",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              letterSpacing: 4,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              _currencyRates['Gram Altın'].toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontFamily: "SFPro",
-                                fontSize: 24,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                    );
+                  },
+                )
+              )
+          ),
     );
   }
 }
