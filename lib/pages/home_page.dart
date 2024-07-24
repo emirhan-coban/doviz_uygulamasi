@@ -36,10 +36,18 @@ class _HomePageState extends State<HomePage> {
                 "Alış: ${data['GBP']['AlÄ±Å']}\nSatış: ${data['GBP']['SatÄ±Å']}",
             'Gram Altın':
                 "Alış: ${data['gram-altin']['AlÄ±Å']}\nSatış: ${data['gram-altin']['SatÄ±Å']}",
+            'Çeyrek Altın': "Alış: ${data['ceyrek-altin']['AlÄ±Å']}\nSatış: ${data['ceyrek-altin']['SatÄ±Å']}",
+            'Yarım Altın': "Alış: ${data['yarim-altin']['AlÄ±Å']}\nSatış: ${data['yarim-altin']['SatÄ±Å']}",
+            'Tam Altın': "Alış: ${data['tam-altin']['AlÄ±Å']}\nSatış: ${data['tam-altin']['SatÄ±Å']}",
+            'Cumhuriyet Altını': "Alış: ${data['cumhuriyet-altini']['AlÄ±Å']}\nSatış: ${data['cumhuriyet-altini']['SatÄ±Å']}",
             'Dolar Değişim': data['USD']['DeÄiÅim'],
             'Euro Değişim': data['EUR']['DeÄiÅim'],
             'Sterlin Değişim': data['GBP']['DeÄiÅim'],
             'Gram Altın Değişim': data['gram-altin']['DeÄiÅim'],
+            'Çeyrek Altın Değişim': data['ceyrek-altin']['DeÄiÅim'],
+            'Yarım Altın Değişim': data['yarim-altin']['DeÄiÅim'],
+            'Tam Altın Değişim': data['tam-altin']['DeÄiÅim'],
+            'Cumhuriyet Altını Değişim': data['cumhuriyet-altini']['DeÄiÅim'],
             'Saat': data['Update_Date'],
           };
           _isLoading = false;
@@ -60,6 +68,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _isLoading = true;
+              });
+              _fetchCurrencyRates();
+            },
+            icon: const Icon(
+              Icons.refresh,
+              color: Colors.black,
+            ),
+          ),
+        ],
         toolbarHeight: 75,
         backgroundColor: Colors.grey[200],
         elevation: 0,
@@ -80,78 +102,80 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.black,
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.only(
-                  right: 20, left: 20, bottom: 20, top: 0),
-              child: Column(
-                children: [
-                  // güncel saat
-                  Container(
-                    padding: const EdgeInsets.only(right: 10, left: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Son Güncelleme: ${_currencyRates['Saat']}',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    height: 370,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: ListView.builder(
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        final key = _currencyRates.keys.elementAt(index);
-                        final value = _currencyRates[key];
-                        return ListTile(
-                          leading: Image.asset(
-                            'assets/images/$key.png',
-                            width: 50,
-                            height: 50,
-                          ),
-                          title: Text(
-                            key,
+          : SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.only(
+                    right: 20, left: 20, bottom: 20, top: 0),
+                child: Column(
+                  children: [
+                    // güncel saat
+                    Container(
+                      padding: const EdgeInsets.only(right: 10, left: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Son Güncelleme: ${_currencyRates['Saat']}',
+                            textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
                             ),
                           ),
-                          subtitle: Text(
-                            value.toString(),
-                            style: const TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                          trailing: Text(
-                            _currencyRates['$key Değişim'].toString(),
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: _currencyRates['$key Değişim']
-                                        .toString()
-                                        .contains('-')
-                                    ? Colors.red
-                                    : Colors.green),
-                          ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    Container(
+                      height: 675,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ListView.builder(
+                        itemCount: 8,
+                        itemBuilder: (context, index) {
+                          final key = _currencyRates.keys.elementAt(index);
+                          final value = _currencyRates[key];
+                          return ListTile(
+                            leading: Image.asset(
+                              'assets/images/$key.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            title: Text(
+                              key,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              value.toString(),
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            trailing: Text(
+                              _currencyRates['$key Değişim'].toString(),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: _currencyRates['$key Değişim']
+                                          .toString()
+                                          .contains('-')
+                                      ? Colors.red
+                                      : Colors.green),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+          ),
     );
   }
 }
